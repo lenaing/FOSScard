@@ -265,6 +265,10 @@ def generate_html(data):
             opacity: 0.6;
         }}
 
+        .footer a {{
+            color: {style['header_color']};
+        }}
+
         @media print {{
             body {{
                 background: white;
@@ -288,7 +292,7 @@ def generate_html(data):
         </div>
 
         <div class="footer">
-            FOSScard • Open Source Contribution Card
+            <a href="https://github.com/iMilnb/FOSScard">FOSScard</a> • Open Source Contribution Card
         </div>
     </div>
 </body>
