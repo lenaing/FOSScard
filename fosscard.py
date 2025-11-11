@@ -56,6 +56,13 @@ def generate_html(data):
     name = data.get('name', 'Anonymous Developer')
     name_link = data.get('link', '')
     logo = data.get('logo', '')
+    header_background = data.get('header_background', '')
+
+    # If header_background is a URL (not already wrapped in url()), wrap it
+    if header_background and (header_background.startswith('http://') or header_background.startswith('https://')):
+        if not header_background.startswith('url('):
+            header_background = f"url('{header_background}')"
+
     style_name = data.get('style', 'dark').lower()
     style = STYLES.get(style_name, STYLES['dark'])
     projects = data.get('projects', {})
@@ -70,11 +77,27 @@ def generate_html(data):
                 # Check if this is a direct project or a language grouping
                 if 'link' in item_details or 'description' in item_details:
                     # Direct project under category
-                    link = item_details.get('link', '#')
+                    link = item_details.get('link', '')
                     desc = item_details.get('description', '')
+                    complexity = item_details.get('complexity', 0)
+                    # Choose color based on complexity level
+                    if complexity < 3:
+                        complexity_indicator = '🟩' * complexity
+                    elif complexity < 5:
+                        complexity_indicator = '🟨' * complexity
+                    elif complexity > 4:
+                        complexity_indicator = '🟥' * complexity
+                    else:
+                        complexity_indicator = ''
+                    if link:
+                        project_name_html = f'<a href="{link}" class="project-name" target="_blank">{item_name}</a>'
+                    else:
+                        project_name_html = f'<span class="project-name">{item_name}</span>'
+                    if complexity_indicator:
+                        project_name_html += f' <span class="complexity">{complexity_indicator}</span>'
                     projects_html += f'''
                     <div class="project">
-                        <a href="{link}" class="project-name" target="_blank">{item_name}</a>
+                        {project_name_html}
                         <span class="project-desc">{desc}</span>
                     </div>
                     '''
@@ -83,11 +106,27 @@ def generate_html(data):
                     projects_html += f'<div class="language">{item_name}</div>'
                     for proj_name, proj_details in item_details.items():
                         if isinstance(proj_details, dict):
-                            link = proj_details.get('link', '#')
+                            link = proj_details.get('link', '')
                             desc = proj_details.get('description', '')
+                            complexity = proj_details.get('complexity', 0)
+                            # Choose color based on complexity level
+                            if complexity >= 5:
+                                complexity_indicator = '🟥' * complexity
+                            elif 3 <= complexity <= 4:
+                                complexity_indicator = '🟨' * complexity
+                            elif 1 <= complexity <= 2:
+                                complexity_indicator = '🟩' * complexity
+                            else:
+                                complexity_indicator = ''
+                            if link:
+                                project_name_html = f'<a href="{link}" class="project-name" target="_blank">{proj_name}</a>'
+                            else:
+                                project_name_html = f'<span class="project-name">{proj_name}</span>'
+                            if complexity_indicator:
+                                project_name_html += f' <span class="complexity">{complexity_indicator}</span>'
                             projects_html += f'''
                             <div class="project">
-                                <a href="{link}" class="project-name" target="_blank">{proj_name}</a>
+                                {project_name_html}
                                 <span class="project-desc">{desc}</span>
                             </div>
                             '''
@@ -141,7 +180,9 @@ def generate_html(data):
         
         .header {{
             padding: 20px;
-            background: {style['section_bg']};
+            background: {header_background if header_background else style['section_bg']};
+            background-size: cover;
+            background-position: center;
             border-bottom: 2px solid {style['border_color']};
             position: relative;
         }}
@@ -154,6 +195,7 @@ def generate_html(data):
             margin: 0 auto 12px;
             display: block;
             object-fit: cover;
+            background: {style['section_bg']};
         }}
         
         .name {{
@@ -217,10 +259,15 @@ def generate_html(data):
         .project-name {{
             font-weight: 600;
             color: {style['text_color']};
-            display: block;
+            display: inline;
             margin-bottom: 2px;
         }}
-        
+
+        .complexity {{
+            font-size: 10px;
+            margin-left: 4px;
+        }}
+
         .project-desc {{
             color: {style['text_color']};
             opacity: 0.8;
