@@ -1,0 +1,52 @@
+name: Emile 'iMil' Heitor
+link: https://imil.net
+logo: https://smolbsd.org/smolBSD.png
+style: molokai
+projects:
+
+  OS:
+    NetBSD:
+      pkgin:
+        link: https://pkgin.net
+        description: binary package management for NetBSD
+      kernel PVH boot:
+        link: https://github.com/NetBSDfr/NetBSD-src
+        description: implemented PVH boot protocol into NetBSD kernel
+      kernel boot speed improvement:
+        link: https://github.com/NetBSDfr/NetBSD-src
+        description: divided by 20 NetBSD's kernel boot time
+      smolBSD:
+        link: https://smolbsd.org
+        description: minimal BSD UNIX microvm creation tool
+      sailor:
+        link: https://github.com/NetBSDfr/sailor
+        description: container-like creation tool for NetBSD
+      nitro:
+        link: https://github.com/leahneukirchen/nitro
+        description: added NetBSD support to the nitro init system
+      dinit:
+        link: https://github.com/davmac314/dinit
+        description: added NetBSD support to the dinit init system
+      pkgsrc:
+        link: https://pkgsrc.se/bbmaint.php?maint=imil@NetBSD.org
+        description: various packages creation
+
+  AI:
+    Go:
+      cbg:
+        link: https://gitlab.com/iMil/cbg
+        description: a command line frontend to various AI APIs
+  misc:
+    Go:
+      telegrun:
+        link: https://gitlab.com/iMil/telegrun
+        description: execute local commands via Telegram messages
+      js2sh:
+        link: https://gitlab.com/iMil/js2sh
+        description: convert JSON data to shell variables
+      derpina:
+        link: https://gitlab.com/iMil/derpina
+        description: modular bot for Mattermost outgoing webhooks
+      unchinifyer:
+        link: https://gitlab.com/iMil/unchinifyer
+        description: take control over an ieGeek security webcam
